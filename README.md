@@ -26,7 +26,7 @@ The **Smart-Stuff P1 Modbus Dongle** exposes RS485 Modbus RTU via screw terminal
 ```
 esphome/
 ├── components/
-│   └── foxess_solar/        # Local external component used by foxess-inverter.yaml
+│   └── foxess_solar/        # Component source fetched by ESPHome from GitHub
 │       ├── __init__.py
 │       ├── foxess_solar.h
 │       ├── foxess_solar.cpp
@@ -62,6 +62,8 @@ esphome run foxess-inverter.yaml
 ```
 
 Subsequent updates are via OTA (no USB needed).
+
+Only `foxess-inverter.yaml` and your local `secrets.yaml` are required in the ESPHome live config folder. The `foxess_solar` component is fetched from GitHub by `external_components`.
 
 ### 3. Add to Home Assistant
 
@@ -181,7 +183,7 @@ Both are pre-configured for the **HA Energy Dashboard** — just add "T-Series G
 
 ## Component notes
 
-The `components/foxess_solar/` folder is used as a local ESPHome `external_components` source, so this repository builds without requiring a separate component checkout. It is based on [PR #26](https://github.com/assembly12/Foxess-T-series-ESPHome-Home-Assistant/pull/26) by [@SibrenVasse](https://github.com/SibrenVasse). It replaces the original `platform: custom` approach (removed in ESPHome 2026.4.3) with a proper `external_components` architecture.
+The `components/foxess_solar/` folder is fetched by ESPHome through the `external_components` GitHub source in `foxess-inverter.yaml`, so a live ESPHome install only needs the YAML and local `secrets.yaml`. The component is based on [PR #26](https://github.com/assembly12/Foxess-T-series-ESPHome-Home-Assistant/pull/26) by [@SibrenVasse](https://github.com/SibrenVasse). It replaces the original `platform: custom` approach (removed in ESPHome 2026.4.3) with a proper `external_components` architecture.
 
 Key improvements over the original `foxess_t_series.h`:
 
