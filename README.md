@@ -7,13 +7,14 @@ Read your FoxESS T-Series solar inverter into Home Assistant in real time using 
 | Component | Detail |
 |-----------|--------|
 | Microcontroller | ESP32-C3 DevKitM-1 |
-| Protocol | RS485 (FoxESS proprietary, 9600 baud) |
+| RS485 interface | [Smart-Stuff P1 Modbus Dongle](https://smart-stuff.nl/product/p1-naar-modbus-dongle/) |
+| Protocol | RS485 Modbus RTU, 9600 baud |
 | UART TX | GPIO0 |
 | UART RX | GPIO10 |
 | RS485 flow control (DE/RE) | GPIO4 |
 | Status LED | GPIO7 (active low) |
 
-Wire the RS485 adapter to the inverter's RS485 port (A/B terminals). FoxCloud and RS485 monitoring coexist safely — installer access is unaffected.
+The **Smart-Stuff P1 Modbus Dongle** exposes RS485 Modbus RTU via screw terminals (A/B/GND). Connect A and B to the inverter's RS485 port. The dongle's USB-C port can provide additional power if needed.
 
 ## Software
 
