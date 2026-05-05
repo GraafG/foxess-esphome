@@ -50,20 +50,20 @@ void FoxessSolar::setup() {
   this->millis_lastmessage_ = millis();
 }
 
-void FoxessSolar::publish_zero_phases() {
+void FoxessSolar::publish_offline_phases() {
   for (auto &ph : this->phases_) {
-    publish_sensor_state(ph.voltage_sensor_, 0, 1.0f);
-    publish_sensor_state(ph.current_sensor_, 0, 1.0f);
+    publish_sensor_state(ph.voltage_sensor_, 0, NAN);
+    publish_sensor_state(ph.current_sensor_, 0, NAN);
     publish_sensor_state(ph.frequency_sensor_, 0, NAN);
-    publish_sensor_state(ph.active_power_sensor_, 0, 1.0f);
+    publish_sensor_state(ph.active_power_sensor_, 0, NAN);
   }
 }
 
-void FoxessSolar::publish_zero_pvs() {
+void FoxessSolar::publish_offline_pvs() {
   for (auto &pv : this->pvs_) {
-    publish_sensor_state(pv.voltage_sensor_, 0, 1.0f);
-    publish_sensor_state(pv.current_sensor_, 0, 1.0f);
-    publish_sensor_state(pv.active_power_sensor_, 0, 1.0f);
+    publish_sensor_state(pv.voltage_sensor_, 0, NAN);
+    publish_sensor_state(pv.current_sensor_, 0, NAN);
+    publish_sensor_state(pv.active_power_sensor_, 0, NAN);
   }
 }
 
@@ -75,7 +75,7 @@ void FoxessSolar::update() {
     if (this->inverter_mode_ != 0) {
       this->set_inverter_mode(0);  // OFFLINE
 
-      publish_sensor_state(this->generation_power_, 0, 1.0f);
+      publish_sensor_state(this->generation_power_, 0, NAN);
       publish_sensor_state(this->grid_power_, 0, NAN);
       publish_sensor_state(this->loads_power_, 0, NAN);
 
@@ -83,8 +83,8 @@ void FoxessSolar::update() {
       publish_sensor_state(this->ambient_temp_, 0, NAN);
       publish_sensor_state(this->inverter_temp_, 0, NAN);
 
-      this->publish_zero_phases();
-      this->publish_zero_pvs();
+      this->publish_offline_phases();
+      this->publish_offline_pvs();
     }
   }
 

@@ -18,7 +18,7 @@ The **Smart-Stuff P1 Modbus Dongle** exposes RS485 Modbus RTU via screw terminal
 
 ## Software
 
-- **ESPHome** (tested on 2026.4.3+)
+- **ESPHome** (tested on 2025.4.3+)
 - **Home Assistant** (any recent version)
 
 ## Folder structure
@@ -89,7 +89,7 @@ grid_power:
   # internal: true   ← delete or comment out this line
 
 loads_power:
-  name: "T-Series loads Power"
+  name: "T-Series Loads Power"
   id: "loads_power"
   icon: mdi:lightning-bolt
   # internal: true   ← delete or comment out this line

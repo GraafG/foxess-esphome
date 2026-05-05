@@ -97,7 +97,7 @@ sensor:
       icon: mdi:lightning-bolt
 
     loads_power:
-      name: "T-Series loads Power"
+      name: "T-Series Loads Power"
       id: "loads_power"
       icon: mdi:lightning-bolt
       internal: true  # battery models only — remove to expose in HA
@@ -118,7 +118,7 @@ sensor:
           - throttle: 1h
       frequency:
         name: "T-Series Grid Frequency R"
-        id: "grid_Frequency_r"
+        id: "grid_frequency_r"
         icon: mdi:sine-wave
         filters:
           - throttle: 1h
@@ -143,7 +143,7 @@ sensor:
           - throttle: 1h
       frequency:
         name: "T-Series Grid Frequency S"
-        id: "grid_Frequency_s"
+        id: "grid_frequency_s"
         icon: mdi:sine-wave
         filters:
           - throttle: 1h
@@ -156,7 +156,7 @@ sensor:
     phase_c:
       voltage:
         name: "T-Series Grid Voltage T"
-        id: "grid_voltage_T"
+        id: "grid_voltage_t"
         icon: mdi:flash
         filters:
           - throttle: 1h
@@ -168,7 +168,7 @@ sensor:
           - throttle: 1h
       frequency:
         name: "T-Series Grid Frequency T"
-        id: "grid_Frequency_t"
+        id: "grid_frequency_t"
         icon: mdi:sine-wave
         filters:
           - throttle: 1h

@@ -95,8 +95,8 @@ class FoxessSolar : public PollingComponent, public uart::UARTDevice {
   void set_inverter_mode(uint32_t mode);
   optional<bool> check_msg();
 
-  void publish_zero_phases();
-  void publish_zero_pvs();
+  void publish_offline_phases();
+  void publish_offline_pvs();
 
   GPIOPin *flow_control_pin_{nullptr};
   uint32_t millis_lastmessage_{0};

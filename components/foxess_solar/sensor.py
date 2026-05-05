@@ -89,6 +89,7 @@ PV_SENSORS = {
         device_class=DEVICE_CLASS_CURRENT,
         state_class=STATE_CLASS_MEASUREMENT,
     ),
+    # accuracy_decimals=1 is intentional: PV power = V×I scaled by 0.01, giving genuine tenth-watt resolution
     CONF_ACTIVE_POWER: sensor.sensor_schema(
         unit_of_measurement=UNIT_WATT,
         accuracy_decimals=1,
@@ -97,8 +98,8 @@ PV_SENSORS = {
     ),
 }
 
-PHASE_SCHEMA = cv.Schema({cv.Optional(sensor): schema for sensor, schema in PHASE_SENSORS.items()})
-PV_SCHEMA = cv.Schema({cv.Optional(sensor): schema for sensor, schema in PV_SENSORS.items()})
+PHASE_SCHEMA= cv.Schema({cv.Optional(conf_key): schema for conf_key, schema in PHASE_SENSORS.items()})
+PV_SCHEMA = cv.Schema({cv.Optional(conf_key): schema for conf_key, schema in PV_SENSORS.items()})
 
 CONFIG_SCHEMA = (
     cv.Schema(
