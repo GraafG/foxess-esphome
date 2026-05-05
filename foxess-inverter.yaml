@@ -1,0 +1,292 @@
+# ============================================================
+# PV STRING CONFIGURATION
+# Set internal: false for strings connected to your inverter.
+# Set internal: true (or remove) for unused strings.
+# This inverter uses 1 PV string (PV1 only).
+#
+# BATTERY MODEL SENSORS
+# grid_power and loads_power are hidden by default (internal: true).
+# Remove internal: true on both if you have a battery-equipped model.
+# ============================================================
+
+esphome:
+  name: foxess-inverter
+  platformio_options:
+    upload_speed: 1500000
+
+esp32:
+  board: esp32-c3-devkitm-1
+  framework:
+    type: arduino
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/GraafG/foxess-t-series-esphome
+      ref: main
+  # Alternative: use local copy during development
+  # - source:
+  #     type: local
+  #     path: components
+
+# Enable logging — WARN level for production (reduces HA log noise)
+logger:
+  level: WARN
+  baud_rate: 0
+
+# Enable Home Assistant API with encryption
+api:
+  encryption:
+    key: !secret esphome_api_encryption_key
+
+status_led:
+  pin:
+    number: 7
+    inverted: true
+
+ota:
+  - platform: esphome
+    password: !secret esphome_ota_pass
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  domain: ".fritz.box"
+  power_save_mode: none
+  ap:
+    ssid: !secret foxess_ap_ssid
+    password: !secret foxess_ap_pass
+
+web_server:
+captive_portal:
+
+uart:
+  id: uart_bus
+  tx_pin: 0
+  rx_pin: 10
+  baud_rate: 9600
+
+button:
+  - platform: restart
+    name: "_Restart device"
+    id: reboot
+
+text_sensor:
+  - platform: template
+    name: "T-Series Inverter Mode"
+    id: "inverter_mode_text_sensor"
+    icon: mdi:solar-power-variant
+
+sensor:
+  - platform: foxess_solar
+    # flow_control_pin defaults to GPIO4 — matches our RS485 direction pin
+    update_interval: 1s
+
+    # --- Grid totals (signed: positive=import, negative=export) ---
+    # grid_power and loads_power are only populated on battery-equipped models.
+    # On non-battery T-Series they always read 0 W — set internal: false to expose in HA.
+    grid_power:
+      name: "T-Series Grid Power"
+      id: "grid_power"
+      icon: mdi:lightning-bolt
+      internal: true  # battery models only — remove to expose in HA
+
+    generation_power:
+      name: "T-Series Generation Power"
+      id: "generation_power"
+      icon: mdi:lightning-bolt
+
+    loads_power:
+      name: "T-Series loads Power"
+      id: "loads_power"
+      icon: mdi:lightning-bolt
+      internal: true  # battery models only — remove to expose in HA
+
+    # --- Phase R (A) ---
+    phase_a:
+      voltage:
+        name: "T-Series Grid Voltage R"
+        id: "grid_voltage_r"
+        icon: mdi:flash
+        filters:
+          - throttle: 1h
+      current:
+        name: "T-Series Grid Current R"
+        id: "grid_current_r"
+        icon: mdi:current-ac
+        filters:
+          - throttle: 1h
+      frequency:
+        name: "T-Series Grid Frequency R"
+        id: "grid_Frequency_r"
+        icon: mdi:sine-wave
+        filters:
+          - throttle: 1h
+      active_power:
+        name: "T-Series Grid Power R"
+        id: "grid_power_r"
+        icon: mdi:lightning-bolt
+
+    # --- Phase S (B) ---
+    phase_b:
+      voltage:
+        name: "T-Series Grid Voltage S"
+        id: "grid_voltage_s"
+        icon: mdi:flash
+        filters:
+          - throttle: 1h
+      current:
+        name: "T-Series Grid Current S"
+        id: "grid_current_s"
+        icon: mdi:current-ac
+        filters:
+          - throttle: 1h
+      frequency:
+        name: "T-Series Grid Frequency S"
+        id: "grid_Frequency_s"
+        icon: mdi:sine-wave
+        filters:
+          - throttle: 1h
+      active_power:
+        name: "T-Series Grid Power S"
+        id: "grid_power_s"
+        icon: mdi:lightning-bolt
+
+    # --- Phase T (C) ---
+    phase_c:
+      voltage:
+        name: "T-Series Grid Voltage T"
+        id: "grid_voltage_T"
+        icon: mdi:flash
+        filters:
+          - throttle: 1h
+      current:
+        name: "T-Series Grid Current T"
+        id: "grid_current_t"
+        icon: mdi:current-ac
+        filters:
+          - throttle: 1h
+      frequency:
+        name: "T-Series Grid Frequency T"
+        id: "grid_Frequency_t"
+        icon: mdi:sine-wave
+        filters:
+          - throttle: 1h
+      active_power:
+        name: "T-Series Grid Power T"
+        id: "grid_power_t"
+        icon: mdi:lightning-bolt
+
+    # --- PV strings ---
+    pv1:
+      voltage:
+        name: "T-Series PV1 Voltage"
+        id: "pv1_voltage"
+        icon: mdi:flash
+      current:
+        name: "T-Series PV1 Current"
+        id: "pv1_current"
+        icon: mdi:current-ac
+      active_power:
+        name: "T-Series PV1 Power"
+        id: "pv1_power"
+        icon: mdi:lightning-bolt
+
+    pv2:
+      voltage:
+        name: "T-Series PV2 Voltage"
+        id: "pv2_voltage"
+        icon: mdi:flash
+        internal: true  # not connected — remove to expose in HA
+      current:
+        name: "T-Series PV2 Current"
+        id: "pv2_current"
+        icon: mdi:current-ac
+        internal: true
+      active_power:
+        name: "T-Series PV2 Power"
+        id: "pv2_power"
+        icon: mdi:lightning-bolt
+        internal: true
+
+    pv3:  # only relevant for T8dual-T12dual and T15-T25 models
+      voltage:
+        name: "T-Series PV3 Voltage"
+        id: "pv3_voltage"
+        icon: mdi:flash
+        internal: true  # not connected — remove to expose in HA
+      current:
+        name: "T-Series PV3 Current"
+        id: "pv3_current"
+        icon: mdi:current-ac
+        internal: true
+      active_power:
+        name: "T-Series PV3 Power"
+        id: "pv3_power"
+        icon: mdi:lightning-bolt
+        internal: true
+
+    pv4:  # only relevant for T8dual-T12dual and T15-T25 models
+      voltage:
+        name: "T-Series PV4 Voltage"
+        id: "pv4_voltage"
+        icon: mdi:flash
+        internal: true  # not connected — remove to expose in HA
+      current:
+        name: "T-Series PV4 Current"
+        id: "pv4_current"
+        icon: mdi:current-ac
+        internal: true
+      active_power:
+        name: "T-Series PV4 Power"
+        id: "pv4_power"
+        icon: mdi:lightning-bolt
+        internal: true
+
+    # --- Temperatures ---
+    boost_temp:
+      name: "T-Series Boost Temperature"
+      id: "boost_temperature"
+      filters:
+        - throttle: 10min
+
+    inverter_temp:
+      name: "T-Series Inverter Temperature"
+      id: "inverter_temperature"
+      filters:
+        - throttle: 10min
+
+    ambient_temp:
+      name: "T-Series Ambient Temperature"
+      id: "ambient_temperature"
+      filters:
+        - throttle: 10min
+
+    # --- Energy (HA Energy Dashboard) ---
+    energy_production_day:
+      name: "T-Series Today Yield"
+      id: "today_yield"
+      icon: mdi:solar-power
+
+    total_energy_production:
+      name: "T-Series Generation Total"
+      id: "generation_total"
+      icon: mdi:solar-power
+
+    # --- Inverter status (drives the text sensor above) ---
+    inverter_status:
+      name: "T-Series Inverter State"
+      id: "inverter_state"
+      internal: true
+      on_value:
+        then:
+          - lambda: |-
+              if (x == 0) {
+                id(inverter_mode_text_sensor).publish_state("Offline");
+              } else if (x == 1) {
+                id(inverter_mode_text_sensor).publish_state("Online");
+              } else if (x == 2) {
+                id(inverter_mode_text_sensor).publish_state("Error");
+              } else {
+                id(inverter_mode_text_sensor).publish_state("Waiting for response...");
+              }
