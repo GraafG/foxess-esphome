@@ -25,6 +25,9 @@ The **Smart-Stuff P1 Modbus Dongle** exposes RS485 Modbus RTU via screw terminal
 
 ```
 esphome/
+├── .github/
+│   └── workflows/
+│       └── esphome.yml       # CI: validate and compile ESPHome firmware
 ├── components/
 │   └── foxess_solar/        # Component source fetched by ESPHome from GitHub
 │       ├── __init__.py
@@ -32,6 +35,7 @@ esphome/
 │       ├── foxess_solar.cpp
 │       └── sensor.py
 ├── foxess-inverter.yaml     # Main ESPHome config
+├── requirements.txt          # ESPHome CLI version used by CI
 └── secrets.yaml             # Credentials (not committed)
 ```
 
