@@ -21,13 +21,13 @@ esp32:
 
 external_components:
   - source:
-      type: git
-      url: https://github.com/GraafG/foxess-t-series-esphome
-      ref: main
-  # Alternative: use local copy during development
+      type: local
+      path: components
+  # Alternative: fetch the component from GitHub instead of using the local copy
   # - source:
-  #     type: local
-  #     path: components
+  #     type: git
+  #     url: https://github.com/GraafG/foxess-t-series-esphome
+  #     ref: main
 
 # Enable logging — WARN level for production (reduces HA log noise)
 logger:
