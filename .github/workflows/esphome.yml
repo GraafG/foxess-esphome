@@ -2,6 +2,7 @@ name: ESPHome build
 
 on:
   push:
+    branches: ["master"]
   pull_request:
 
 jobs:
@@ -20,6 +21,22 @@ jobs:
 
       - name: Install ESPHome
         run: python -m pip install -r requirements.txt
+
+      - name: Cache PlatformIO toolchains
+        uses: actions/cache@v4
+        with:
+          path: ~/.platformio
+          key: ${{ runner.os }}-pio-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pio-
+
+      - name: Cache ESPHome build artifacts
+        uses: actions/cache@v4
+        with:
+          path: .esphome
+          key: ${{ runner.os }}-esphome-${{ hashFiles('foxess-inverter.yaml', 'components/**') }}
+          restore-keys: |
+            ${{ runner.os }}-esphome-
 
       - name: Create CI secrets
         run: |

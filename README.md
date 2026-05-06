@@ -18,7 +18,7 @@ The **Smart-Stuff P1 Modbus Dongle** exposes RS485 Modbus RTU via screw terminal
 
 ## Software
 
-- **ESPHome** (tested on 2025.4.3+)
+- **ESPHome** (tested on 2026.4.3+)
 - **Home Assistant** (any recent version)
 
 ## Folder structure
