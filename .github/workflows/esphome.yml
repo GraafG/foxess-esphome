@@ -11,10 +11,10 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.13"
           cache: pip
@@ -23,7 +23,7 @@ jobs:
         run: python -m pip install -r requirements.txt
 
       - name: Cache PlatformIO toolchains
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.platformio
           key: ${{ runner.os }}-pio-${{ hashFiles('requirements.txt') }}
@@ -31,7 +31,7 @@ jobs:
             ${{ runner.os }}-pio-
 
       - name: Cache ESPHome build artifacts
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: .esphome
           key: ${{ runner.os }}-esphome-${{ hashFiles('foxess-inverter.yaml', 'components/**') }}
