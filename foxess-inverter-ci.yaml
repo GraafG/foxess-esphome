@@ -1,0 +1,8 @@
+<<: !include foxess-inverter.yaml
+
+# A shallow YAML merge intentionally replaces the production Git source.
+external_components:
+  - source:
+      type: local
+      path: components
+    components: [foxess_solar]
