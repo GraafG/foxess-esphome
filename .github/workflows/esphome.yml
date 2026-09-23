@@ -34,7 +34,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: .esphome
-          key: ${{ runner.os }}-esphome-${{ hashFiles('foxess-inverter.yaml', 'components/**') }}
+          key: ${{ runner.os }}-esphome-${{ hashFiles('requirements.txt', 'foxess-inverter*.yaml', 'components/**') }}
           restore-keys: |
             ${{ runner.os }}-esphome-
 
@@ -50,7 +50,7 @@ jobs:
           EOF
 
       - name: Validate ESPHome config
-        run: esphome config foxess-inverter.yaml
+        run: esphome config foxess-inverter-ci.yaml
 
       - name: Compile ESPHome firmware
-        run: esphome compile foxess-inverter.yaml
+        run: esphome compile foxess-inverter-ci.yaml

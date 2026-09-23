@@ -73,6 +73,15 @@ Only `foxess-inverter.yaml` and your local `secrets.yaml` are required in the ES
 
 ESPHome will be discovered automatically. Accept the device and enter your API encryption key when prompted.
 
+## CI validation
+
+CI uses `foxess-inverter-ci.yaml`, which includes the production configuration
+but replaces its Git component source with the checked-out `components/` folder.
+This ensures dependency upgrades and component changes are validated and compiled
+together, rather than silently testing the component from `master`. CI creates
+synthetic secrets and only runs `esphome config` and `esphome compile`; it does
+not upload firmware or connect to an inverter.
+
 ## Configuration
 
 ### Battery model sensors
